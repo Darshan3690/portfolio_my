@@ -28,7 +28,7 @@ type ContributionResult =
     };
 
 const GITHUB_GRAPHQL_ENDPOINT = 'https://api.github.com/graphql';
-const DEFAULT_USERNAME = 'YOUR_GITHUB_USERNAME';
+const DEFAULT_USERNAME = 'Darshan3690';
 
 const contributionsQuery = `
   query($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -64,63 +64,71 @@ async function fetchContributions(): Promise<ContributionResult> {
   const from = new Date();
   from.setFullYear(to.getFullYear() - 1);
 
-  const response = await fetch(GITHUB_GRAPHQL_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${githubToken}`,
-    },
-    body: JSON.stringify({
-      query: contributionsQuery,
-      variables: {
-        login: username,
-        from: from.toISOString(),
-        to: to.toISOString(),
+  try {
+    const response = await fetch(GITHUB_GRAPHQL_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${githubToken}`,
       },
-    }),
-    next: { revalidate: 60 * 60 * 6 },
-  });
+      body: JSON.stringify({
+        query: contributionsQuery,
+        variables: {
+          login: username,
+          from: from.toISOString(),
+          to: to.toISOString(),
+        },
+      }),
+      next: { revalidate: 60 * 60 * 6 },
+    });
 
-  if (!response.ok) {
-    return {
-      error: `Failed to fetch contributions from GitHub (status ${response.status}).`,
-    };
-  }
+    if (!response.ok) {
+      return {
+        error: `Failed to fetch contributions from GitHub (status ${response.status}).`,
+      };
+    }
 
-  const payload = await response.json();
+    const payload = await response.json();
 
-  if (payload.errors) {
-    return {
-      error: payload.errors
-        .map(
-          (item: { message?: string }) =>
+    if (payload.errors) {
+      return {
+        error: payload.errors
+          .map((item: { message?: string }) =>
             item?.message ?? 'Unknown GitHub API error'
-        )
-        .join(', '),
-    };
-  }
+          )
+          .join(', '),
+      };
+    }
 
-  const calendar: ContributionCalendar | undefined =
-    payload?.data?.user?.contributionsCollection?.contributionCalendar;
+    const calendar: ContributionCalendar | undefined =
+      payload?.data?.user?.contributionsCollection?.contributionCalendar;
 
-  if (!calendar) {
+    if (!calendar) {
+      return {
+        error: 'GitHub response did not contain contribution data.',
+      };
+    }
+
+    const totalDays = calendar.weeks.reduce(
+      (acc, week) => acc + week.contributionDays.length,
+      0
+    );
+
     return {
-      error: 'GitHub response did not contain contribution data.',
+      calendar,
+      totalDays,
+      username,
+      from: from.toISOString(),
+      to: to.toISOString(),
+    };
+  } catch (err: any) {
+    return {
+      error:
+        err?.message && typeof err?.message === 'string'
+          ? `Failed to fetch contributions: ${err.message}`
+          : 'Failed to fetch contributions due to a network error.',
     };
   }
-
-  const totalDays = calendar.weeks.reduce(
-    (acc, week) => acc + week.contributionDays.length,
-    0
-  );
-
-  return {
-    calendar,
-    totalDays,
-    username,
-    from: from.toISOString(),
-    to: to.toISOString(),
-  };
 }
 
 function formatDateRange(fromISO: string, toISO: string) {

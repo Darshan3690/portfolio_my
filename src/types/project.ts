@@ -3,16 +3,22 @@ export interface Project {
   title: string;
   tagline: string;
   description: string;
-  category: 'Projects' | 'Major Projects' | 'Internship Experience' | 'Freelance Projects' | 'Hackathons' | 'Learning Based Projects';
+  category:
+    | 'Projects'
+    | 'personal Projects'
+    | 'Major Projects'
+    | 'My open source projects'
+    | 'Hackathons'
+    | 'Learning Based Projects';
   thumbnail: string;
   images: string[];
   technologies: { name: string; icon?: string }[];
   features: string[];
-  links: {
+  links?: {
     live?: string;
     github?: string;
     youtube?: string;
     linkedin?: string;
   };
   timeline: string;
-}
+} 

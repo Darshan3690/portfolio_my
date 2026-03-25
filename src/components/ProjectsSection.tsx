@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project } from '@/types/project';
 import { projects as allProjects } from '@/data/projects';
@@ -17,6 +17,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Badge } from '@/components/ui/badge';
 import {
   Carousel,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -24,6 +25,7 @@ import {
 } from '@/components/ui/carousel';
 import {
   ExternalLink,
+  ArrowUpRight,
   Github,
   Youtube,
   Linkedin,
@@ -36,9 +38,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 const categories = [
   'All',
   'Projects',
+  'personal Projects',
   'Major Projects',
-  'Internship Experience',
-  'Freelance Projects',
+  'My open source projects',
   'Hackathons',
   'Learning Based Projects',
 ] as const;
@@ -78,7 +80,11 @@ export const ProjectsSection = () => {
         <div className="flex justify-center mb-12">
           <Tabs
             value={activeCategory}
-            onValueChange={(v) => setActiveCategory(v as any)}
+            onValueChange={(v) => {
+              if ((categories as readonly string[]).includes(v)) {
+                setActiveCategory(v as typeof categories[number]);
+              }
+            }}
             className="w-full"
           >
             <ScrollArea className="w-full whitespace-nowrap">
@@ -135,7 +141,7 @@ const ProjectCard = ({
   onClick: () => void;
 }) => {
   const quickTags = [
-    project.links.live ? 'Live' : null,
+    project.links?.live ? 'Live' : null,
     'Web',
   ].filter(Boolean) as string[];
 
@@ -204,30 +210,169 @@ const ProjectModal = ({
   project: Project | null; 
   onClose: () => void;
 }) => {
+  const youtubeEmbedUrl = useMemo(() => {
+    const raw = project?.links?.youtube;
+    if (!raw) return null;
+
+    try {
+      const url = new URL(raw);
+      const host = url.hostname.replace('www.', '');
+      let id: string | null = null;
+
+      if (host === 'youtu.be') {
+        id = url.pathname.split('/').filter(Boolean)[0] ?? null;
+      } else if (host === 'youtube.com' || host === 'm.youtube.com') {
+        if (url.pathname === '/watch') {
+          id = url.searchParams.get('v');
+        } else if (url.pathname.startsWith('/embed/')) {
+          id = url.pathname.split('/embed/')[1]?.split('/')[0] ?? null;
+        } else if (url.pathname.startsWith('/shorts/')) {
+          id = url.pathname.split('/shorts/')[1]?.split('/')[0] ?? null;
+        }
+      }
+
+      if (!id) return null;
+      return `https://www.youtube-nocookie.com/embed/${id}`;
+    } catch {
+      return null;
+    }
+  }, [project?.links?.youtube]);
+
+  const images = useMemo(() => {
+    if (!project) return ['/blogs-images/default.jpg'];
+    const safe = Array.isArray(project.images) ? project.images.filter(Boolean) : [];
+    if (safe.length > 0) return safe;
+    if (project.thumbnail) return [project.thumbnail];
+    return ['/blogs-images/default.jpg'];
+  }, [project]);
+
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+  const [carouselIndex, setCarouselIndex] = useState(1);
+  const [carouselCount, setCarouselCount] = useState(0);
+  const [showAllImages, setShowAllImages] = useState(false);
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    const update = () => {
+      setCarouselCount(carouselApi.scrollSnapList().length);
+      setCarouselIndex(carouselApi.selectedScrollSnap() + 1);
+    };
+
+    update();
+    carouselApi.on('reInit', update);
+    carouselApi.on('select', update);
+
+    return () => {
+      carouselApi.off('reInit', update);
+      carouselApi.off('select', update);
+    };
+  }, [carouselApi]);
+
+  useEffect(() => {
+    setShowAllImages(false);
+  }, [project?.id]);
+
   if (!project) return null;
 
   return (
     <Dialog open={!!project} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-6xl w-[96vw] h-[92vh] bg-[#020617] border-gray-800 p-0 overflow-hidden flex flex-col md:flex-row rounded-3xl shadow-2xl shadow-blue-500/10">
         {/* Left Section - 70% */}
-        <div className="flex-1 md:w-[70%] border-r border-gray-800 bg-gray-950 flex flex-col justify-center p-4 md:p-8">
-          <Carousel className="w-full max-w-4xl mx-auto">
-            <CarouselContent>
-              {project.images.map((img, idx) => (
-                <CarouselItem key={idx}>
-                  <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-xl border border-gray-800">
-                    <img
-                      src={img}
-                      alt={`${project.title} screenshot ${idx + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </AspectRatio>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-6 bg-gray-900/80 border-gray-800" />
-            <CarouselNext className="hidden md:flex -right-6 bg-gray-900/80 border-gray-800" />
-          </Carousel>
+        <div className="flex-1 md:w-[70%] border-r border-gray-800 bg-gray-950 flex flex-col justify-between p-4 md:p-8">
+          {!showAllImages ? (
+            <>
+              <div className="flex-1 flex items-center">
+                <div className="relative w-full max-w-4xl mx-auto">
+                  <Carousel setApi={(api) => setCarouselApi(api)} className="w-full">
+                    <CarouselContent>
+                      {images.map((img, idx) => (
+                        <CarouselItem key={idx}>
+                          <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-xl border border-gray-800">
+                            <img
+                              src={img}
+                              alt={`${project.title} screenshot ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </AspectRatio>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="hidden md:flex -left-6 bg-gray-900/80 border-gray-800" />
+                    <CarouselNext className="hidden md:flex -right-6 bg-gray-900/80 border-gray-800" />
+                  </Carousel>
+                </div>
+              </div>
+
+              <div className="w-full max-w-4xl mx-auto pt-5 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5" aria-label="Slide navigation">
+                  {Array.from({ length: carouselCount || images.length }).map((_, i) => {
+                    const isActive = i + 1 === carouselIndex;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => carouselApi?.scrollTo(i)}
+                        aria-label={`Go to slide ${i + 1}`}
+                        className={`h-2 rounded-full transition-all ${
+                          isActive ? 'w-6 bg-blue-400' : 'w-2 bg-gray-700 hover:bg-gray-600'
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
+
+                {images.length > 1 ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllImages(true)}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-800 bg-gray-900/60 px-6 py-3 text-sm font-medium text-gray-100 hover:bg-gray-900/80 transition-colors"
+                  >
+                    View All {images.length} Images
+                    <ArrowUpRight className="h-4 w-4 text-gray-400" />
+                  </button>
+                ) : (
+                  <div className="text-xs text-gray-600">1 image</div>
+                )}
+              </div>
+            </>
+          ) : (
+            <div className="w-full max-w-4xl mx-auto flex flex-col gap-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-gray-200">All images</p>
+                  <p className="text-xs text-gray-500">{images.length} total</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowAllImages(false)}
+                  className="inline-flex items-center justify-center rounded-lg border border-gray-800 bg-gray-900/60 px-4 py-2 text-xs font-medium text-gray-200 hover:bg-gray-900/80 transition-colors"
+                >
+                  Back
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto pr-1 max-h-[68vh]">
+                {images.map((img, idx) => (
+                  <a
+                    key={idx}
+                    href={img}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block overflow-hidden rounded-xl border border-gray-800 bg-gray-900/40 hover:bg-gray-900/60 transition-colors"
+                  >
+                    <AspectRatio ratio={16 / 9}>
+                      <img
+                        src={img}
+                        alt={`${project.title} screenshot ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </AspectRatio>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right Section - 30% */}
@@ -282,33 +427,53 @@ const ProjectModal = ({
               </Tabs>
 
               <div className="pt-6 space-y-3 border-t border-gray-800">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Links</h4>
-                <div className="grid grid-cols-2 gap-2">
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Project Links</h4>
+                <div className="flex flex-wrap gap-2">
                   {project.links.live && (
-                    <a href={project.links.live} target="_blank" rel="noopener" className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-all text-xs font-medium">
+                    <a href={project.links.live} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <ExternalLink className="w-3.5 h-3.5" />
                       Live Demo
                     </a>
                   )}
                   {project.links.github && (
-                    <a href={project.links.github} target="_blank" rel="noopener" className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-gray-800 hover:bg-gray-700 text-white transition-all text-xs font-medium">
+                    <a href={project.links.github} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Github className="w-3.5 h-3.5" />
                       GitHub
                     </a>
                   )}
                   {project.links.youtube && (
-                    <a href={project.links.youtube} target="_blank" rel="noopener" className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-red-600/20 hover:bg-red-600/30 text-red-500 transition-all text-xs font-medium border border-red-500/20">
+                    <a href={project.links.youtube} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Youtube className="w-3.5 h-3.5" />
                       YouTube
                     </a>
                   )}
                   {project.links.linkedin && (
-                    <a href={project.links.linkedin} target="_blank" rel="noopener" className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-blue-900/20 hover:bg-blue-900/30 text-blue-400 transition-all text-xs font-medium border border-blue-900/20">
+                    <a href={project.links.linkedin} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Linkedin className="w-3.5 h-3.5" />
                       LinkedIn
                     </a>
                   )}
                 </div>
+              </div>
+
+              <div className="pt-6 space-y-3 border-t border-gray-800">
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Demo Video</h4>
+                {youtubeEmbedUrl ? (
+                  <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-xl border border-gray-800 bg-gray-950">
+                    <iframe
+                      src={youtubeEmbedUrl}
+                      title={`${project.title} demo video`}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                  </AspectRatio>
+                ) : (
+                  <div className="rounded-xl border border-gray-800 bg-gray-900/40 px-4 py-3 text-sm text-gray-500">
+                    Add a YouTube URL in <span className="text-gray-300">project.links.youtube</span> to show the demo here.
+                  </div>
+                )}
               </div>
             </div>
           </ScrollArea>

@@ -142,8 +142,8 @@ export const projects: Project[] = [
   description:
     'Built a community-driven developer platform using Next.js, Supabase, and Clerk that provides curated learning resources, interactive tools, and guided roadmaps for students and developers. Designed a scalable full-stack architecture supporting authentication, database integration, and contributor workflows. Actively maintained as an open-source project with Hacktoberfest participation, enabling developers worldwide to learn, build, and contribute effectively. Designed to scale as a developer ecosystem platform, not just a resource website.',
   category: 'My open source projects',
-  thumbnail: '/blogs-images/default.jpg',
-  images: ['/blogs-images/default.jpg'],
+  thumbnail: '/dev_1',
+  images: ['/dev_2.png', '/dev_3.png', '/dev_1_1.png', '/dev_1_2.png', '/dev_1_3.png', '/dev_1_4.png', '/dev_1_5.png', '/dev_1_6.png', '/dev_1_7.png'],
   technologies: [
     { name: 'Next.js' },
     { name: 'React' },

@@ -64,7 +64,7 @@ export const About = () => {
             <li>
               Engineered <strong className="text-white">MLCS</strong>, a
               multi-LLM chat system that supported
-              <strong className="text-white"> 1,000+ concurrent users</strong>
+              <strong className="text-white"></strong>
               and side-by-side GPT, Gemini, and Claude workflows.
             </li>
             <li>

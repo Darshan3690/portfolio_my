@@ -35,9 +35,11 @@ import {
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+const fallbackImage = '/blogs-images/default.jpg';
+
 const categories = [
   'All',
-  'Projects',
+  
   'personal Projects',
   'Major Projects',
   'My open source projects',
@@ -163,6 +165,9 @@ const ProjectCard = ({
               src={project.thumbnail}
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              onError={event => {
+                event.currentTarget.src = fallbackImage;
+              }}
             />
           </AspectRatio>
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -293,6 +298,9 @@ const ProjectModal = ({
                               src={img}
                               alt={`${project.title} screenshot ${idx + 1}`}
                               className="w-full h-full object-cover"
+                              onError={event => {
+                                event.currentTarget.src = fallbackImage;
+                              }}
                             />
                           </AspectRatio>
                         </CarouselItem>
@@ -429,25 +437,25 @@ const ProjectModal = ({
               <div className="pt-6 space-y-3 border-t border-gray-800">
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500">Project Links</h4>
                 <div className="flex flex-wrap gap-2">
-                  {project.links.live && (
+                  {project.links?.live && (
                     <a href={project.links.live} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <ExternalLink className="w-3.5 h-3.5" />
                       Live Demo
                     </a>
                   )}
-                  {project.links.github && (
+                  {project.links?.github && (
                     <a href={project.links.github} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Github className="w-3.5 h-3.5" />
                       GitHub
                     </a>
                   )}
-                  {project.links.youtube && (
+                  {project.links?.youtube && (
                     <a href={project.links.youtube} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Youtube className="w-3.5 h-3.5" />
                       YouTube
                     </a>
                   )}
-                  {project.links.linkedin && (
+                  {project.links?.linkedin && (
                     <a href={project.links.linkedin} target="_blank" rel="noopener" className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gray-900/50 hover:bg-gray-900/70 text-white transition-colors text-xs font-medium border border-gray-800">
                       <Linkedin className="w-3.5 h-3.5" />
                       LinkedIn

@@ -121,12 +121,14 @@ async function fetchContributions(): Promise<ContributionResult> {
       from: from.toISOString(),
       to: to.toISOString(),
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error && err.message
+        ? `Failed to fetch contributions: ${err.message}`
+        : 'Failed to fetch contributions due to a network error.';
+
     return {
-      error:
-        err?.message && typeof err?.message === 'string'
-          ? `Failed to fetch contributions: ${err.message}`
-          : 'Failed to fetch contributions due to a network error.',
+      error: message,
     };
   }
 }

@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import {
   BarChart3,
+  Cloud,
   Database,
   FlaskConical,
   Link,
@@ -143,10 +144,7 @@ export const Skills = () => {
         },
         {
           name: 'AWS',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original.svg',
-          },
+          icon: { type: 'lucide', icon: Cloud },
         },
         {
           name: 'Git & GitHub',

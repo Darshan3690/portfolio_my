@@ -17,6 +17,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = (await params).slug;
 

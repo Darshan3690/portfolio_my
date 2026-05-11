@@ -3,6 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FileText, Linkedin } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
 
+const resumeUrl = 'https://drive.google.com/file/d/19ADwPShLoRqHHj9ZtpDsNO1TYML9ig1G/view';
+const cvUrl = 'https://drive.google.com/file/d/1oRjWdYK9gLALcCmsQNnw_dTxrZzrWiAh/view';
+
 export const Hero = () => {
   return (
     <section className="mb-12 pt-5 sm:pt-6 md:pt-8">
@@ -23,15 +26,29 @@ export const Hero = () => {
             Innovative Developer | AI Integration & Full‑Stack Web
           </h2>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <a
-              href="/DARSHAN_RAJPUT_FullStack.pdf"
-              download
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg transition-all duration-200 hover:scale-105"
-              aria-label="Download Resume"
-            >
-              <FileText className="w-4 h-4" />
-              Resume / CV
-            </a>
+            <div className="inline-flex overflow-hidden rounded-lg border border-white/20 bg-white/10">
+              <a
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white hover:bg-white/15 transition-all duration-200 hover:scale-[1.02]"
+                aria-label="Open Resume"
+              >
+                <FileText className="w-4 h-4" />
+                Resume
+              </a>
+              <span className="w-px bg-white/15" aria-hidden="true" />
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white hover:bg-white/15 transition-all duration-200 hover:scale-[1.02]"
+                aria-label="Open CV"
+              >
+                <FileText className="w-4 h-4" />
+                CV
+              </a>
+            </div>
             <a
               href="#contact"
               className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-black bg-white hover:bg-gray-200 rounded-lg transition-all duration-200 hover:scale-105"

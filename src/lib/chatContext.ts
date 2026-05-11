@@ -1,12 +1,24 @@
-import { testimonials } from '@/data/testimonials';
-import { experiences } from '@/data/experiences';
-import { getBlogPosts } from '@/data/blogPosts';
+import { getBlogPosts } from '../data/blogPosts';
+import { experiences } from '../data/experiences';
+import { testimonials } from '../data/testimonials';
+
+const formatTestimonialSource = (source?: string) => {
+  if (source === 'github') {
+    return ' - GitHub';
+  }
+
+  if (source === 'twitter') {
+    return ' - Twitter';
+  }
+
+  return '';
+};
 
 // Build testimonials context
 const buildTestimonialsContext = () => {
   return testimonials
-    .map((t, idx) => {
-      return `${idx + 1}. **${t.name}** (${t.title || 'Engineer'}${t.source === 'github' ? ' - GitHub' : t.source === 'twitter' ? ' - Twitter' : ''}):\n   - "${t.quote}"\n   - Source: ${t.sourceUrl || 'N/A'}`;
+    .map((testimonial, index) => {
+      return `${index + 1}. **${testimonial.name}** (${testimonial.title || 'Engineer'}${formatTestimonialSource(testimonial.source)}):\n   - "${testimonial.quote}"\n   - Source: ${testimonial.sourceUrl || 'N/A'}`;
     })
     .join('\n\n');
 };
@@ -15,37 +27,21 @@ const buildTestimonialsContext = () => {
 const buildExperienceContext = () => {
   let context = '';
 
-  experiences.forEach((exp, idx) => {
-    context += `${idx + 1}. ${exp.company} (${exp.period})\n`;
-    context += `   - You're ${exp.role}\n`;
-    context += `   - You've merged ${exp.totalPRs} PRs\n`;
-    if (exp.totalBounties) {
-      context += `   - You've earned ${exp.totalBounties} in total bounties\n`;
+  experiences.forEach((experience, index) => {
+    context += `${index + 1}. ${experience.company} (${experience.period})\n`;
+    context += `   - You're ${experience.role}\n`;
+    context += `   - You've merged ${experience.totalPRs} PRs\n`;
+
+    if (experience.totalBounties) {
+      context += `   - You've earned ${experience.totalBounties} in total bounties\n`;
     }
 
-    if (exp.contributions && exp.contributions.length > 0) {
+    if (experience.contributions.length > 0) {
       context += `   - Major contributions you've made:\n`;
 
-      exp.contributions.forEach(contribution => {
+      experience.contributions.forEach(contribution => {
         context += `     * ${contribution.title}\n`;
       });
-    }
-
-    // Add tech stack based on company
-    if (exp.company === 'CX Linux AI') {
-      context += `   - Tech you use: Shell, Python, Rust; you created/initialized cx-distro (CX Linux ISO Builder)\n`;
-      context += `   - PRs: https://github.com/Anshgrover23?org=cxlinux-ai&year_list=1\n`;
-    } else if (exp.company === 'Antiwork') {
-      context += `   - Tech you use: TypeScript, Next.js, Ruby\n`;
-      context += `   - Note: You worked as an independent Contract Software Engineer\n`;
-    } else if (exp.company === 'TSCircuit') {
-      context += `   - Tech you use: TypeScript, React.js\n`;
-    } else if (exp.company === 'Mediar-AI') {
-      context += `   - Tech you use: Rust, Python\n`;
-    } else if (exp.company === 'Archestra') {
-      context += `   - Tech you use: Go, Terraform\n`;
-    } else if (exp.company === 'Sugar Labs' || exp.company === 'TwentyHQ') {
-      context += `   - Tech you use: TypeScript, React.js\n`;
     }
 
     context += '\n';
@@ -58,24 +54,28 @@ const buildExperienceContext = () => {
 const buildBlogContext = () => {
   const blogPosts = getBlogPosts();
 
-  if (!blogPosts || blogPosts.length === 0) {
+  if (blogPosts.length === 0) {
     return 'No blog posts available yet.';
   }
 
   let context = '';
 
-  blogPosts.forEach((post, idx) => {
-    context += `${idx + 1}. **${post.title}** (${post.date})${post.isNew ? ' [NEW]' : ''}\n`;
+  blogPosts.forEach((post, index) => {
+    context += `${index + 1}. **${post.title}** (${post.date})${post.isNew ? ' [NEW]' : ''}\n`;
     context += `   - Read time: ${post.readTime}\n`;
+
     if (post.excerpt) {
       context += `   - Summary: ${post.excerpt}\n`;
     }
-    if (post.tags && post.tags.length > 0) {
+
+    if (post.tags.length > 0) {
       context += `   - Tags: ${post.tags.join(', ')}\n`;
     }
-    context += `   - Link: https://anshgrover.me/blog/${post.slug}\n`;
+
+    context += `   - Link: /blog/${post.slug}\n`;
     context += '\n';
   });
+
   return context;
 };
 
@@ -83,51 +83,45 @@ const buildBlogContext = () => {
 const buildDetailedWorkContext = () => {
   let context = '';
 
-  experiences.forEach(exp => {
-    if (exp.contributions && exp.contributions.length > 0) {
-      const reposPrivate = 'reposPrivate' in exp && exp.reposPrivate;
-      context += `**${exp.company} (${exp.period}) - ${exp.totalPRs} PRs${exp.totalBounties ? `, ${exp.totalBounties} bounties` : ''}:**\n`;
-      if (reposPrivate) {
-        context += `   (Work in private repos; do not share PR links. Compensation details / earnings summary available on the portfolio.)\n`;
+  experiences.forEach(experience => {
+    if (experience.contributions.length === 0) {
+      return;
+    }
+
+    context += `**${experience.company} (${experience.period}) - ${experience.totalPRs} PRs${experience.totalBounties ? `, ${experience.totalBounties} bounties` : ''}:**\n`;
+
+    if (experience.reposPrivate) {
+      context +=
+        '   (Work in private repos; do not share PR links. Compensation details / earnings summary available on the portfolio.)\n';
+    }
+
+    experience.contributions.forEach(contribution => {
+      const badge = contribution.badge || contribution.bounty || '';
+
+      if (badge) {
+        context += `\n${contribution.title} (${badge}):\n`;
+      } else {
+        context += `\n${contribution.title}:\n`;
       }
 
-      exp.contributions.forEach(contribution => {
-        const badge =
-          'badge' in contribution
-            ? contribution.badge
-            : 'bounty' in contribution
-              ? contribution.bounty
-              : '';
-        if (badge) {
-          context += `\n${contribution.title} (${badge}):\n`;
-        } else {
-          context += `\n${contribution.title}:\n`;
-        }
+      if (
+        !experience.reposPrivate &&
+        contribution.pullRequests &&
+        contribution.pullRequests.length > 0
+      ) {
+        contribution.pullRequests.forEach(pr => {
+          const prNumber = pr.link.match(/\/pull\/(\d+)/)?.[1] || '';
+          const prTitle = pr.title.replace(/^#\d+\s*(?:[^\w\s]+|-)\s*/, '');
+          context += `   - #${prNumber}: ${pr.link} - ${prTitle}\n`;
+        });
+      }
 
-        // Add PR links only when repos are public
-        if (
-          !reposPrivate &&
-          'pullRequests' in contribution &&
-          contribution.pullRequests &&
-          contribution.pullRequests.length > 0
-        ) {
-          contribution.pullRequests.forEach(
-            (pr: { title: string; link: string }) => {
-              const prNumber = pr.link.match(/\/pull\/(\d+)/)?.[1] || '';
-              const prTitle = pr.title.replace(/^#\d+\s*·\s*/, '');
-              context += `   - #${prNumber}: ${pr.link} - ${prTitle}\n`;
-            }
-          );
-        }
+      if (contribution.link) {
+        context += `   - ${contribution.link}\n`;
+      }
+    });
 
-        // Add contribution links
-        if ('link' in contribution && contribution.link) {
-          context += `   - ${contribution.link}\n`;
-        }
-      });
-
-      context += '\n';
-    }
+    context += '\n';
   });
 
   return context;
@@ -148,26 +142,26 @@ CONTACT INFORMATION:
 - Other contact links (GitHub, LinkedIn, etc.) are available via the icons and links on the portfolio.
 
 KEY EXPERIENCES:
-- Elite Coders — PR & Outreach Team (Nov 2025 – Present, Remote)
-- Hacktoberfest 2025 — Maintainer & Contributor (Dev Pocket)
-- GirlScript Summer of Code 2024 — Open Source Contributor
-- Hacktoberfest 2024 — Open Source Contributor
+- Elite Coders - PR & Outreach Team (Nov 2025 - Present, Remote)
+- Hacktoberfest 2025 - Maintainer & Contributor (Dev Pocket)
+- GirlScript Summer of Code 2024 - Open Source Contributor
+- Hacktoberfest 2024 - Open Source Contributor
 
 EXPERIENCE & CONTRIBUTIONS (DETAIL):
 
 ${buildExperienceContext()}
 
 PROJECTS:
-- MediAI – Medical Voice AI Agent: AI-powered virtual doctor built with Next.js, TypeScript, AssemblyAI, Clerk, and NeonDB, focused on real-time, voice-first consultations and accessible healthcare.
-- MlCS – Multi-LLM Chat System: PWA built with Next.js and React to compare conversations with GPT, Gemini, and Claude, including secure API key handling, persistent history, and export.
-- PromptGenius – AI Prompt Enhancer: Chrome extension that upgrades basic prompts into optimized CRISPE-style prompts entirely on the client, improving AI response quality without API keys.
+- MediAI - Medical Voice AI Agent: AI-powered virtual doctor built with Next.js, TypeScript, AssemblyAI, Clerk, and NeonDB, focused on real-time, voice-first consultations and accessible healthcare.
+- MlCS - Multi-LLM Chat System: PWA built with Next.js and React to compare conversations with GPT, Gemini, and Claude, including secure API key handling, persistent history, and export.
+- PromptGenius - AI Prompt Enhancer: Chrome extension that upgrades basic prompts into optimized CRISPE-style prompts entirely on the client, improving AI response quality without API keys.
 
 EDUCATION:
 - Bachelor of Engineering in Computer Science, Marwadi University, Rajkot, Gujarat (Class of 2027).
 - Relevant coursework: Data Structures & Algorithms, Operating Systems, Object Oriented Programming, Linear Algebra, Calculus, Cloud Computing Essentials, Data Science Essentials, Machine Learning.
 
 CERTIFICATIONS:
-- Explore Machine Learning using Python – Infosys Springboard 2025.
+- Explore Machine Learning using Python - Infosys Springboard 2025.
 - AWS Academy Cloud Foundations 2025 (AWS Academy Graduate).
 
 SKILLS:

@@ -71,7 +71,7 @@ export const Navigation = () => {
     } else {
       unlock();
     }
-  }, [isOpen]);
+  }, [isOpen, lock, unlock]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {

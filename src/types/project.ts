@@ -14,11 +14,14 @@ export interface Project {
   images: string[];
   technologies: { name: string; icon?: string }[];
   features: string[];
+  metrics?: string[];
+  team?: string[];
   links?: {
     live?: string;
     github?: string;
     youtube?: string;
     linkedin?: string;
+    certificate?: string;
   };
   timeline: string;
 } 

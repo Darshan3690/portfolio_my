@@ -12,6 +12,9 @@ import {
 export const AnimatedSocialLinks = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  const resumeUrl = 'https://drive.google.com/file/d/19ADwPShLoRqHHj9ZtpDsNO1TYML9ig1G/view';
+  const cvUrl = 'https://drive.google.com/file/d/1oRjWdYK9gLALcCmsQNnw_dTxrZzrWiAh/view';
+
   type IconComponent = React.ComponentType<{ className?: string }>;
   const links: {
     icon: IconComponent;
@@ -51,9 +54,15 @@ export const AnimatedSocialLinks = () => {
     },
     {
       icon: FileText as IconComponent,
-      href: '/DARSHAN_RAJPUT_FullStack.pdf',
+      href: resumeUrl,
       label: 'Resume',
       color: 'hover:bg-green-700',
+    },
+    {
+      icon: FileText as IconComponent,
+      href: cvUrl,
+      label: 'CV',
+      color: 'hover:bg-emerald-700',
     },
   ];
 
@@ -71,7 +80,6 @@ export const AnimatedSocialLinks = () => {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      download={link.label === 'Resume' ? '' : undefined}
                       aria-label={link.label}
                       className={`p-2 rounded-full bg-gray-800/50 ${link.color} transition-all duration-300 hover:scale-110 group relative z-20`}
                       onMouseEnter={() => setHoveredIndex(index)}

@@ -6,8 +6,9 @@ import { PreloadAvatar } from '@/components/PreloadAvatar';
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
-  title: 'Darshan Rajput',
-  description: "Darshan Rajput's personal portfolio website.",
+  title: 'Darshan Rajput | AI-focused Full Stack Developer',
+  description:
+    'Darshan Rajput is an AI-focused full stack developer, open-source maintainer, and builder of LLM-powered applications, voice agents, and automation systems.',
   authors: [{ name: 'Darshan Rajput', url: 'http://localhost:3000/' }],
   icons: {
     icon: [
@@ -18,8 +19,9 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Darshan Rajput',
-    description: "Darshan Rajput's personal portfolio website.",
+    title: 'Darshan Rajput | AI-focused Full Stack Developer',
+    description:
+      'AI-focused full stack developer building LLM-powered applications, voice agents, and automation systems.',
     type: 'website',
     url: 'http://localhost:3000/',
     images: [

@@ -10,18 +10,18 @@ export const Education = () => {
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 mb-2">
               <h3 className="text-xl font-semibold text-white">
-                Marwadi University, Rajkot
+                Marwadi University, Rajkot, Gujarat
               </h3>
               <span className="text-gray-400 text-sm">
-                Aug. 2023 – May 2027 (Expected)
+                Jan. 2023 – Aug. 2027 (Expected) 
               </span>
             </div>
             <p className="text-purple-400 mb-1">
-              Bachelor of Technology, Computer Engineering (2023-2027)
+              B.E. Computer Engineering
             </p>
             <p className="text-gray-300 text-sm leading-relaxed">
-              Currently pursuing my Bachelor's degree in Computer Engineering at
-              Marwadi University, Rajkot. Expected to graduate in May 2027.
+              Coursework includes DSA, DBMS, OOP, Operating Systems, Cloud
+              Computing, Data Science, and Machine Learning.
             </p>
           </div>
         </div>

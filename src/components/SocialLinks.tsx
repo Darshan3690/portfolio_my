@@ -11,7 +11,7 @@ export const SocialLinks = () => {
     },
     {
       icon: Mail,
-      href: 'mailto:darshan.rajput369@gmail.com',
+      href: 'mailto:darshan.rajput123091@marwadiuniversity.ac.in',
       label: 'Email',
     },
     {

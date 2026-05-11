@@ -20,10 +20,10 @@ export const Hero = () => {
         </div>
         <div className="flex-1 min-w-0 md:pr-2">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold mb-3 text-white text-left tracking-tight leading-tight">
-            Hi I'm Darshan
+            AI-focused Full Stack Developer
           </h1>
           <h2 className="text-lg sm:text-xl md:text-2xl font-medium text-gray-400 mb-6">
-            Innovative Developer | AI Integration & Full‑Stack Web
+            Open-source builder | LLM Integration | Next.js · React · Python
           </h2>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <div className="inline-flex overflow-hidden rounded-lg border border-white/20 bg-white/10">

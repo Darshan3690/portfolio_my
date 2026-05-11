@@ -42,7 +42,7 @@ export const AnimatedSocialLinks = () => {
     },
     {
       icon: Mail as IconComponent,
-      href: 'mailto:darshan.rajput369@gmail.com',
+      href: 'mailto:darshan.rajput123091@marwadiuniversity.ac.in',
       label: 'Email',
       color: 'hover:bg-green-600',
     },

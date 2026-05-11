@@ -15,15 +15,14 @@ export const About = () => {
         <div className="text-gray-300 leading-relaxed">
           <div>
             I'm <strong className="text-white">Darshan Rajput</strong>, an{' '}
-            <strong className="text-white">Innovative Developer</strong>{' '}
-            specializing in AI integration, scalable frontend, and backend
-            development. I build high-performance web applications using the
-            MERN stack and Next.js, with hands-on experience in AI-powered
-            features. I love leveraging modern web technologies to ship
-            impactful products.
+            <strong className="text-white">Full Stack Developer & Open Source Contributor</strong>{' '}
+            at Marwadi University, focused on LLM-powered applications, voice AI
+            agents, and multi-model orchestration systems. I build production
+            software that moves from prompt design and model selection to
+            deployment and measurable user impact.
           </div>
           <div className="mt-4">
-            I work primarily with{' '}
+            My stack spans{' '}
             <Badge className="bg-gray-800 text-gray-200 hover:bg-gray-700 border-0 rounded-lg px-2 py-0.5 inline-flex items-center gap-1.5 h-[1.5em] align-middle font-semibold text-sm leading-none">
               <Image
                 src="/svg-icons/typescript.svg"
@@ -45,10 +44,9 @@ export const About = () => {
               />
               <span className="font-semibold">Next.js</span>
             </Badge>
-            , and modern frontend tooling. On the backend, I work with Node.js
-            and Express to design architectures capable of handling
-            <strong className="text-white"> 1,000+ concurrent users</strong>,
-            while integrating AI APIs to deliver intelligent experiences.
+            , plus Python, Node.js, SQL, TensorFlow, Pandas, NumPy, and cloud
+            deployment with Vercel and AWS. I focus on building reliable AI
+            pipelines, not just wiring APIs together.
           </div>
         </div>
 
@@ -59,32 +57,29 @@ export const About = () => {
           </h4>
           <ul className="text-gray-300 space-y-2">
             <li>
-              Improved application performance by
-              <strong className="text-white"> 25%</strong> and designed
-              backend architectures ready for
-              <strong className="text-white"> 1,000+ concurrent users</strong>.
+              Built <strong className="text-white">MediAI</strong>, a medical
+              voice AI agent that improved accessibility for
+              <strong className="text-white"> 40%+</strong> of target users.
             </li>
             <li>
-              Built <strong className="text-white">MediAI</strong>, a
-              medical voice AI agent that delivers real-time, voice‑first
-              consultations using Next.js, TypeScript, AssemblyAI, Clerk, and
-              NeonDB.
+              Engineered <strong className="text-white">MLCS</strong>, a
+              multi-LLM chat system that supported
+              <strong className="text-white"> 1,000+ concurrent users</strong>
+              and side-by-side GPT, Gemini, and Claude workflows.
             </li>
             <li>
-              Engineered <strong className="text-white">MlCS</strong>, a
-              multi‑LLM chat system to compare GPT, Gemini, and Claude side by
-              side with secure API‑key handling and persistent history.
+              Shipped <strong className="text-white">FitMentor</strong> and
+              <strong className="text-white"> CoolTheClimate</strong> as full
+              end-to-end products during hackathons and community builds.
             </li>
             <li>
-              Created <strong className="text-white">PromptGenius</strong>, a
-              Chrome extension that turns basic prompts into optimized,
-              CRISPE‑style prompts, improving AI response quality and
-              consistency.
+              Served as an open-source maintainer in Hacktoberfest and GSSOC,
+              reviewing PRs, mentoring contributors, and keeping community
+              projects moving.
             </li>
             <li>
-              Active open‑source contributor through programs like
-              Hacktoberfest and GirlScript Summer of Code, collaborating with
-              global developer communities.
+              Currently exploring applied ML, data science internships, and
+              forward-deployed AI engineer roles.
             </li>
           </ul>
         </div>

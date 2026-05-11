@@ -36,8 +36,56 @@ type SkillCategory = {
 export const Skills = () => {
   const skillCategories: SkillCategory[] = [
     {
-      title: 'Frontend Development',
+      title: 'Languages',
       icon: MonitorSmartphone,
+      skills: [
+        {
+          name: 'JavaScript',
+          icon: {
+            type: 'svg',
+            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
+          },
+        },
+        {
+          name: 'TypeScript',
+          icon: {
+            type: 'svg',
+            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
+          },
+        },
+        {
+          name: 'Python',
+          icon: {
+            type: 'svg',
+            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg',
+          },
+        },
+        {
+          name: 'SQL',
+          icon: {
+            type: 'lucide',
+            icon: Database,
+          },
+        },
+        {
+          name: 'Java',
+          icon: {
+            type: 'svg',
+            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg',
+          },
+        },
+        // {
+        //   name: 'C++',
+        //   icon: {
+        //     type: 'svg',
+        //     src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg',
+        //   },
+        // },
+      ],
+    },
+    {
+      title: 'Frontend',
+      icon: ServerCog,
       skills: [
         {
           name: 'Next.js',
@@ -54,35 +102,20 @@ export const Skills = () => {
           },
         },
         {
-          name: 'JavaScript',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg',
-          },
-        },
-        {
-          name: 'TypeScript',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg',
-          },
-        },
-        {
           name: 'Tailwind CSS',
           icon: {
             type: 'svg',
             src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg',
           },
         },
-        {
-          name: 'ShadCN UI',
-          icon: { type: 'lucide', icon: Wrench },
-        },
+        { name: 'ShadCN UI', icon: { type: 'lucide', icon: Wrench } },
+        { name: 'HTML5 / CSS3', icon: { type: 'lucide', icon: MonitorSmartphone } },
+        { name: 'PWA', icon: { type: 'lucide', icon: RefreshCw } },
       ],
     },
     {
       title: 'Backend & APIs',
-      icon: ServerCog,
+      icon: Database,
       skills: [
         {
           name: 'Node.js',
@@ -91,7 +124,33 @@ export const Skills = () => {
             src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg',
           },
         },
-        { name: 'Express.js', icon: { type: 'lucide', icon: Route } },
+        {
+          name: 'Express.js',
+          icon: { type: 'lucide', icon: Route },
+        },
+        { name: 'REST APIs', icon: { type: 'lucide', icon: Link } },
+        { name: 'JWT Auth', icon: { type: 'lucide', icon: Shield } },
+        { name: 'GitHub Actions', icon: { type: 'lucide', icon: RefreshCw } },
+        { name: 'CI/CD', icon: { type: 'lucide', icon: ServerCog } },
+      ],
+    },
+    {
+      title: 'AI & Automation',
+      icon: FlaskConical,
+      skills: [
+        { name: 'OpenAI API', icon: { type: 'lucide', icon: FlaskConical } },
+        { name: 'Prompt Engineering', icon: { type: 'lucide', icon: RefreshCw } },
+        { name: 'AI Agents', icon: { type: 'lucide', icon: ServerCog } },
+        { name: 'Multi-LLM Systems', icon: { type: 'lucide', icon: Link } },
+        { name: 'n8n', icon: { type: 'lucide', icon: RefreshCw } },
+        { name: 'AssemblyAI', icon: { type: 'lucide', icon: FlaskConical } },
+        { name: 'Vapi AI', icon: { type: 'lucide', icon: FlaskConical } },
+      ],
+    },
+    {
+      title: 'Databases & Cloud',
+      icon: Cloud,
+      skills: [
         {
           name: 'MongoDB',
           icon: {
@@ -99,92 +158,38 @@ export const Skills = () => {
             src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg',
           },
         },
+        { name: 'PostgreSQL', icon: { type: 'lucide', icon: Database } },
+        { name: 'NeonDB', icon: { type: 'lucide', icon: Database } },
+        { name: 'Firebase', icon: { type: 'lucide', icon: Database } },
+        { name: 'Vercel', icon: { type: 'lucide', icon: Cloud } },
+        { name: 'AWS', icon: { type: 'lucide', icon: Cloud } },
+        { name: 'Render', icon: { type: 'lucide', icon: Cloud } },
+        { name: 'Netlify', icon: { type: 'lucide', icon: Cloud } },
+        { name: 'Docker', icon: { type: 'lucide', icon: Cloud } },
         {
-          name: 'RESTful APIs',
+          name: 'Postman',
           icon: { type: 'lucide', icon: Link },
         },
-        {
-          name: 'JWT Authentication',
-          icon: { type: 'lucide', icon: Shield },
-        },
-        {
-          name: 'MERN Stack',
-          icon: { type: 'lucide', icon: ServerCog },
-        },
-        {
-          name: 'C++',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg',
-          },
-        },
+        { name: 'Cloudinary', icon: { type: 'lucide', icon: Database } },
+        { name: 'Tableau', icon: { type: 'lucide', icon: BarChart3 } },
       ],
     },
     {
-      title: 'Cloud & Deployment',
-      icon: Database,
-      skills: [
-        {
-          name: 'Vercel',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vercel/vercel-original.svg',
-          },
-        },
-        {
-          name: 'Netlify',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/netlify/netlify-original.svg',
-          },
-        },
-        {
-          name: 'Render',
-          icon: { type: 'lucide', icon: ServerCog },
-        },
-        {
-          name: 'AWS',
-          icon: { type: 'lucide', icon: Cloud },
-        },
-        {
-          name: 'Git & GitHub',
-          icon: {
-            type: 'svg',
-            src: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg',
-          },
-        },
-        {
-          name: 'Cloudinary',
-          icon: { type: 'lucide', icon: Database },
-        },
-      ],
-    },
-    {
-      title: 'AI & Automation',
-      icon: FlaskConical,
-      skills: [
-        {
-          name: 'AI API Integration',
-          icon: { type: 'lucide', icon: FlaskConical },
-        },
-        {
-          name: 'Prompt Engineering',
-          icon: { type: 'lucide', icon: RefreshCw },
-        },
-        {
-          name: 'AI‑powered Features',
-          icon: { type: 'lucide', icon: MonitorSmartphone },
-        },
-        {
-          name: 'n8n Workflows',
-          icon: { type: 'lucide', icon: Link },
-        },
-      ],
-    },
-    {
-      title: 'Other Skills',
+      title: 'Analytics & Collaboration',
       icon: Terminal,
       skills: [
+        {
+          name: 'TensorFlow',
+          icon: { type: 'lucide', icon: Terminal },
+        },
+        {
+          name: 'Pandas',
+          icon: { type: 'lucide', icon: Terminal },
+        },
+        {
+          name: 'NumPy',
+          icon: { type: 'lucide', icon: Terminal },
+        },
         {
           name: 'Teamwork & Communication',
           icon: { type: 'lucide', icon: Terminal },

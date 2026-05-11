@@ -90,20 +90,22 @@ export const ProjectsSection = () => {
             className="w-full"
           >
             <ScrollArea className="w-full whitespace-nowrap">
-              <TabsList className="bg-gray-900/60 border border-gray-800 p-1 rounded-2xl max-w-screen-lg mx-auto shadow-lg shadow-blue-500/5">
-                {categories.map((cat) => (
-                  <TabsTrigger
-                    key={cat}
-                    value={cat}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-xl px-4 md:px-5 py-2 text-sm md:text-base transition-all"
-                  >
-                    {cat}
-                    <span className="ml-2 px-2 py-0.5 rounded-full bg-gray-800 text-[11px] text-gray-300 border border-gray-700/70">
-                      {categoryCounts[cat]}
-                    </span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+              <div className="flex w-full justify-center">
+                <TabsList className="w-max bg-gray-900/60 border border-gray-800 p-1 rounded-2xl max-w-screen-lg mx-auto shadow-lg shadow-blue-500/5">
+                  {categories.map((cat) => (
+                    <TabsTrigger
+                      key={cat}
+                      value={cat}
+                      className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white rounded-xl px-4 md:px-5 py-2 text-sm md:text-base transition-all"
+                    >
+                      {cat}
+                      <span className="ml-2 px-2 py-0.5 rounded-full bg-gray-800 text-[11px] text-gray-300 border border-gray-700/70">
+                        {categoryCounts[cat]}
+                      </span>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
             </ScrollArea>
           </Tabs>
         </div>

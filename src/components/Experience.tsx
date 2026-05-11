@@ -14,7 +14,7 @@ export const Experience = () => {
   return (
     <section className="mb-16">
       <h2 className="text-3xl font-bold mb-8 text-white">
-        Organizations I've worked with
+        Experience & Community Work
       </h2>
       <div className="space-y-4 md:space-y-6">
         {experiences.map((exp, index) => (

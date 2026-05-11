@@ -7,7 +7,6 @@ import { ProjectsSection } from '@/components/ProjectsSection';
 import { BookCall } from '@/components/BookCall';
 import { Navigation } from '@/components/Navigation';
 import { AnimatedSocialLinks } from '@/components/AnimatedSocialLinks';
-import { GitHubActivity } from '@/components/GitHubActivity';
 import { Chatbot } from '@/components/Chatbot';
 
 function Index() {
@@ -24,7 +23,6 @@ function Index() {
         <div id="experience" className="scroll-mt-24">
           <Experience />
         </div>
-        <GitHubActivity />
         <div id="education" className="scroll-mt-24">
           <Education />
         </div>

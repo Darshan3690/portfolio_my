@@ -129,7 +129,7 @@ export const Chatbot = () => {
             <div className="flex items-start gap-3 pr-6">
               <div className="relative flex-shrink-0">
                 <Avatar className="w-10 h-10 border-2 border-gray-300">
-                  <AvatarImage src="/avatar.png" alt="Ansh Grover" />
+                  <AvatarImage src="/avatar.png" alt="Darshan Rajput" />
                     <AvatarFallback className="bg-gray-800 text-white text-sm font-bold">
                       DR
                   </AvatarFallback>
@@ -168,7 +168,7 @@ export const Chatbot = () => {
         >
           <div className="relative">
             <Avatar className="w-14 h-14 border-2 border-red-500 shadow-lg ring-2 ring-red-500/20">
-              <AvatarImage src="/avatar.png" alt="Ansh Grover" />
+              <AvatarImage src="/avatar.png" alt="Darshan Rajput" />
                 <AvatarFallback className="bg-gray-800 text-white text-lg font-bold">
                   DR
               </AvatarFallback>
@@ -190,7 +190,7 @@ export const Chatbot = () => {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <Avatar className="w-10 h-10 border-2 border-gray-300">
-                  <AvatarImage src="/avatar.png" alt="Ansh Grover" />
+                  <AvatarImage src="/avatar.png" alt="Darshan Rajput" />
                     <AvatarFallback className="bg-gray-800 text-white text-sm font-bold">
                       DR
                   </AvatarFallback>
@@ -202,7 +202,7 @@ export const Chatbot = () => {
                 <p className="text-sm font-semibold text-gray-900">
                   Darshan Rajput
                 </p>
-                <p className="text-xs text-gray-500">Founder</p>
+                <p className="text-xs text-gray-500">AI Engineer</p>
               </div>
             </div>
             <button
@@ -219,7 +219,7 @@ export const Chatbot = () => {
             {messages.length === 0 && (
               <div className="flex gap-3 justify-start">
                 <Avatar className="w-8 h-8 border border-gray-300 flex-shrink-0">
-                  <AvatarImage src="/avatar.png" alt="Ansh" />
+                  <AvatarImage src="/avatar.png" alt="Darshan Rajput" />
                     <AvatarFallback className="bg-gray-800 text-white text-xs">
                       DR
                   </AvatarFallback>
